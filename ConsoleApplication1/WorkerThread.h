@@ -5,6 +5,7 @@
 #include "FiberBase.h"
 #include "IFiber.h"
 
+// thanks to https://dixq.net/forum/viewtopic.php?t=16448
 template <class F, typename R, typename... ArgTypes> R _getResult(R(F::*)(ArgTypes...));
 template <class F, typename R, typename... ArgTypes> R _getResult(R(F::*)(ArgTypes...) const);
 template <class F> using getResultType = decltype(_getResult(&F::operator()));
