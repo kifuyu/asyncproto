@@ -152,12 +152,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AsyncSample.h" />
     <ClInclude Include="FiberBase.h" />
     <ClInclude Include="IFiber.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="WorkerThread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AsyncSample.cpp" />
     <ClCompile Include="ConsoleApplication1.cpp" />
     <ClCompile Include="FiberBase.cpp" />
     <ClCompile Include="pch.cpp">

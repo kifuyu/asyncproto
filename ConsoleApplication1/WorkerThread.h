@@ -5,7 +5,6 @@
 #include "FiberBase.h"
 #include "IFiber.h"
 
-// thanks to https://dixq.net/forum/viewtopic.php?t=16448
 template <class F, typename R, typename... ArgTypes> R _getResult(R(F::*)(ArgTypes...));
 template <class F, typename R, typename... ArgTypes> R _getResult(R(F::*)(ArgTypes...) const);
 template <class F> using getResultType = decltype(_getResult(&F::operator()));
@@ -53,6 +52,25 @@ public:
 		m_fibNum++;
 		m_cond.notify_one();
 		return ret;
+	}
+	void RegisterAsyncMethod(IFiber* fib)
+	{
+		{
+			std::lock_guard<std::mutex> g(m_fmtx);
+			if (m_fibers.size() > 0)
+			{
+				auto& prev = m_fibers.back();
+				m_fibers.emplace_back(fib, this);
+				prev.SetNext(&m_fibers.back());
+			}
+			else
+			{
+				m_fibers.emplace_back(fib, this);
+			}
+			m_fibers.back().Init();
+		}
+		m_fibNum++;
+		m_cond.notify_one();
 	}
 	void Delay(int sec);
 	void Switch();
