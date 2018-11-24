@@ -22,11 +22,14 @@ bool FiberBase::Check()
 {
 	if (m_delay == 0) return true;
 	auto now = time(nullptr);
-	bool ret = ((now - m_start) * 1000) > m_delay;
-	m_start = now;
-	if (!ret)
+	bool ret = ((now - m_start)) > m_delay;
+	if (ret)
 	{
-		//std::cout << ".";
+		m_start = now;
+	}
+	else
+	{
+		Sleep(1);
 	}
 	return ret;
 }
